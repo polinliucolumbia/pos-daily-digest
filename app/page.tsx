@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase'
 import Timeline from '@/components/Timeline'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   const supabase = createClient()
   const { data: dates } = await supabase
