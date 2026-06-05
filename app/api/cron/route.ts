@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
   // Get user feedback signal to inform ranking
   const { data: feedbackRows } = await supabase
     .from('story_feedback')
-    .select('source, reaction')
+    .select('source, reaction, topic')
 
   const upvoted = [...new Set(feedbackRows?.filter(f => f.reaction === 'up').map(f => f.topic).filter(Boolean) ?? [])]
   const downvoted = [...new Set(feedbackRows?.filter(f => f.reaction === 'down').map(f => f.topic).filter(Boolean) ?? [])]
