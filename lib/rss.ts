@@ -26,6 +26,8 @@ const FEEDS: FeedConfig[] = [
   { url: 'http://feeds.bbci.co.uk/news/world/rss.xml', source: 'BBC World', topic: 'Global News' },
   { url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', source: 'NYT World', topic: 'Global News' },
   { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147', source: 'CNBC Business', topic: 'Business & Ops' },
+  { url: 'https://www.taipeitimes.com/xml/index.rss', source: 'Taipei Times', topic: 'Austria & Taiwan' },
+  { url: 'https://rss.orf.at/news.xml', source: 'ORF', topic: 'Austria & Taiwan' },
 ]
 
 function extractTag(item: string, tag: string): string {
@@ -42,14 +44,14 @@ function extractTag(item: string, tag: string): string {
     .trim()
 }
 
-function isRecent(pubDate: string, hours = 24): boolean {
+export function isRecent(pubDate: string, hours = 24): boolean {
   if (!pubDate) return true
   const d = new Date(pubDate)
   if (isNaN(d.getTime())) return true
   return Date.now() - d.getTime() < hours * 60 * 60 * 1000
 }
 
-function stripHtml(text: string): string {
+export function stripHtml(text: string): string {
   return text.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 }
 

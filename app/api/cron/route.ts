@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase'
 import { fetchArticles } from '@/lib/rss'
-import { summarizeArticles } from '@/lib/summarize'
+import { fetchYouTubeVideos } from '@/lib/youtube'
+import { summarizeArticles, summarizeYouTube } from '@/lib/summarize'
+import type { Section } from '@/lib/types'
 
 export async function GET(req: NextRequest) {
   const auth = req.headers.get('authorization')
@@ -51,7 +53,17 @@ export async function GET(req: NextRequest) {
   const downvoted = [...new Set(feedbackRows?.filter(f => f.reaction === 'down').map(f => f.topic).filter(Boolean) ?? [])]
 
   // Summarize and categorize with Claude
-  const sections = await summarizeArticles(newArticles, { upvoted, downvoted })
+  const sections: Section[] = await summarizeArticles(newArticles, { upvoted, downvoted })
+
+  // Fetch YouTube videos and append as a dedicated section
+  const { videos, feedStatus: ytFeedStatus } = await fetchYouTubeVideos()
+  if (videos.length > 0) {
+    const ytSection = await summarizeYouTube(videos)
+    sections.push(ytSection)
+  } else {
+    // Always include the section so the UI can show "Nothing new!"
+    sections.push({ topic: 'YouTube AI Lessons & Tips', type: 'youtube', stories: [] })
+  }
 
   // Write digest to Supabase
   const { error } = await supabase
@@ -74,6 +86,6 @@ export async function GET(req: NextRequest) {
     ok: true,
     articlesProcessed: newArticles.length,
     sectionsGenerated: sections.length,
-    feedStatus,
+    feedStatus: [...feedStatus, ...ytFeedStatus],
   })
 }

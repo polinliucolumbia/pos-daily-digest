@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import DigestPanel from './DigestPanel'
+import type { Section } from '@/lib/types'
 
-type Story = { headline: string; summary: string; source: string }
-type Section = { topic: string; stories: Story[] }
 type DigestDate = { date: string }
 
 export default function Timeline({ dates }: { dates: DigestDate[] }) {

@@ -28,7 +28,7 @@ export default async function Home() {
         {/* Bottom rule + source stamps */}
         <div className="border-t-2 border-stone-800 pt-3 flex flex-wrap items-center gap-2">
           <span className="font-mono text-xs text-stone-500 uppercase mr-2 tracking-wide">Sources:</span>
-          {['The Verge', 'MIT Tech Review', 'BBC', 'NYT', 'CNBC'].map(s => (
+          {['The Verge', 'MIT Tech Review', 'BBC', 'NYT', 'CNBC', 'YouTube'].map(s => (
             <span key={s} className="text-xs px-2 py-0.5 border border-stone-800/50 font-mono uppercase tracking-wide text-stone-700">{s}</span>
           ))}
         </div>

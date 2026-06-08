@@ -2,9 +2,8 @@
 
 import { useState } from 'react'
 import PixelClouds from './PixelClouds'
-
-type Story = { headline: string; summary: string; source: string }
-type Section = { topic: string; stories: Story[] }
+import YouTubeSection from './YouTubeSection'
+import type { Story, Section } from '@/lib/types'
 
 const VISIBLE_COUNT = 3
 
@@ -165,9 +164,13 @@ export default function DigestPanel({ sections, date }: { sections: Section[]; d
       <div className="relative">
         <PixelClouds />
         <div className="relative z-10 space-y-4">
-          {sections.map((section, i) => (
-            <SectionBlock key={section.topic} section={section} date={date} index={i} />
-          ))}
+          {sections.map((section, i) =>
+            section.type === 'youtube' ? (
+              <YouTubeSection key={section.topic} section={section} index={i} />
+            ) : (
+              <SectionBlock key={section.topic} section={section} date={date} index={i} />
+            )
+          )}
         </div>
       </div>
     </div>
