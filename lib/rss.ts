@@ -73,7 +73,7 @@ export async function fetchArticles(): Promise<{ articles: RawArticle[]; feedSta
         }
 
         const xml = await res.text()
-        const items = xml.split('<item>').slice(1)
+        const items = xml.split('<item').slice(1)
         let count = 0
 
         for (const item of items) {
