@@ -71,7 +71,7 @@ const YouTubeSectionSchema = z.object({
 
 export async function summarizeYouTube(videos: RawVideo[]): Promise<Section> {
   const videoList = videos
-    .map((v, i) => `[${i + 1}] Channel: ${v.channelName}\nTitle: ${v.title}\nDescription: ${v.description}`)
+    .map((v, i) => `[${i + 1}] VideoId: ${v.videoId}\nChannel: ${v.channelName}\nTitle: ${v.title}\nDescription: ${v.description}`)
     .join('\n\n')
 
   const { object } = await generateObject({
