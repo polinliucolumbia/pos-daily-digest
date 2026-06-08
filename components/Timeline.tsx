@@ -82,18 +82,23 @@ export default function Timeline({ dates }: { dates: DigestDate[] }) {
         {loading && (
           <div className="space-y-4 animate-pulse">
             {[1, 2, 3].map(i => (
-              <div key={i} className="rounded-xl border border-stone-300 bg-white px-6 py-5">
-                {/* Skeleton header bar */}
-                <div className="flex items-center gap-2 mb-5">
+              <div key={i} className="rounded-xl border border-stone-800/20 border-t-2 border-t-[#0d5c45] bg-white px-6 py-5">
+                {/* Skeleton icon + title header */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <span className="w-9 h-9 rounded-md bg-stone-100 shrink-0" />
+                    <span className="h-4 w-28 bg-stone-100 rounded" />
+                  </div>
+                  <span className="h-5 w-12 bg-stone-100 rounded" />
+                </div>
+                <div className="flex items-center gap-2 mb-4">
                   <span className="flex gap-1">
                     <span className="w-2 h-2 rounded-full border border-stone-200 inline-block" />
                     <span className="w-2 h-2 rounded-full border border-stone-200 inline-block" />
                     <span className="w-2 h-2 rounded-full border border-stone-200 inline-block" />
                   </span>
                   <span className="flex-1 border-t border-dashed border-stone-200" />
-                  <span className="h-3 w-12 bg-stone-100 rounded" />
                 </div>
-                <div className="h-4 w-28 bg-stone-100 rounded mb-5" />
                 <div className="space-y-3">
                   <div className="h-3.5 bg-stone-100 rounded w-4/5" />
                   <div className="h-3.5 bg-stone-100 rounded w-full" />

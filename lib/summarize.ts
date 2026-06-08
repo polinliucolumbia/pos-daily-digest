@@ -34,8 +34,7 @@ export async function summarizeArticles(
 
 Use exactly these topic names:
 - AI & Tech: AI, software, startups, tech companies, products
-- Business & Ops: economy, markets, companies, strategy, retail
-- Health & Wellness: health, medicine, fitness, mental health
+- Business: economy, markets, companies, strategy, retail
 - Global News: international news, geopolitics, world events, foreign policy
 - Austria & Taiwan: any story that directly concerns Austria or Taiwan, regardless of subject
 

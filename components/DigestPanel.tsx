@@ -1,11 +1,28 @@
 'use client'
 
 import { useState } from 'react'
+import PixelClouds from './PixelClouds'
 
 type Story = { headline: string; summary: string; source: string }
 type Section = { topic: string; stories: Story[] }
 
 const VISIBLE_COUNT = 3
+
+const TOPIC_ICONS: Record<string, string> = {
+  technology: '⚡', tech: '⚡',
+  business: '◈', finance: '◈', economy: '◈',
+  politics: '⬡', world: '⬡', government: '⬡',
+  science: '◎', health: '◎', medicine: '◎',
+  culture: '✺', entertainment: '✺', arts: '✺',
+  sports: '◉',
+  climate: '◌', environment: '◌',
+  default: '◆',
+}
+
+function getIcon(topic: string) {
+  const key = topic.toLowerCase().split(/[\s/]/)[0]
+  return TOPIC_ICONS[key] ?? TOPIC_ICONS.default
+}
 
 function StoryItem({ story, date, topic }: { story: Story; date: string; topic: string }) {
   const [reaction, setReaction] = useState<'up' | 'down' | null>(null)
@@ -71,8 +88,33 @@ function SectionBlock({ section, date, index }: { section: Section; date: string
   const hasMore = hidden.length > 0
 
   return (
-    <div className="rounded-xl border border-stone-300 bg-white px-6 py-5">
-      {/* Retro card header bar */}
+    <div className="rounded-xl border border-stone-800/20 border-t-2 border-t-[#0d5c45] bg-white px-6 py-5">
+      {/* Icon + title header */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <span className="w-9 h-9 flex items-center justify-center bg-[#0d5c45] text-white text-lg rounded-md shrink-0">
+            {getIcon(section.topic)}
+          </span>
+          <h2 className="font-[family-name:var(--font-serif)] text-xl text-stone-900 font-normal">
+            {section.topic}
+          </h2>
+        </div>
+        <span className="font-mono text-xs text-stone-400 border border-stone-200 px-1.5 py-0.5 rounded shrink-0">
+          NO. {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
+      {/* Three-dot + dashed separator */}
+      <div className="flex items-center gap-2 mb-4">
+        <span className="flex gap-1 items-center">
+          <span className="w-2 h-2 rounded-full border border-stone-400 inline-block" />
+          <span className="w-2 h-2 rounded-full border border-stone-400 inline-block" />
+          <span className="w-2 h-2 rounded-full border border-stone-400 inline-block" />
+        </span>
+        <span className="flex-1 border-t border-dashed border-stone-300" />
+      </div>
+
+      {/* Original retro card header bar — commented out for easy revert */}
+      {/*
       <div className="flex items-center gap-2 mb-5">
         <span className="flex gap-1 items-center">
           <span className="w-2 h-2 rounded-full border border-stone-400 inline-block" />
@@ -82,10 +124,11 @@ function SectionBlock({ section, date, index }: { section: Section; date: string
         <span className="flex-1 border-t border-dashed border-stone-300" />
         <span className="font-mono text-xs text-stone-400">[NO. {String(index + 1).padStart(2, '0')}]</span>
       </div>
-
       <h2 className="font-[family-name:var(--font-serif)] text-base font-normal text-[#0d5c45] mb-4">
         {section.topic}
       </h2>
+      */}
+
       <ul className="space-y-1">
         {visible.map((story, i) => (
           <StoryItem key={i} story={story} date={date} topic={section.topic} />
@@ -110,15 +153,22 @@ export default function DigestPanel({ sections, date }: { sections: Section[]; d
   const d = new Date(date + 'T00:00:00')
   const formatted = d.toLocaleDateString('en-US', {
     weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-  })
+  }).toUpperCase()
 
   return (
     <div>
-      <p className="font-[family-name:var(--font-serif)] italic text-stone-500 text-sm mb-8">{formatted}</p>
-      <div className="space-y-4">
-        {sections.map((section, i) => (
-          <SectionBlock key={section.topic} section={section} date={date} index={i} />
-        ))}
+      <div className="mb-8">
+        <span className="font-mono text-xs text-stone-500 border border-stone-300 px-2 py-1 uppercase tracking-widest">
+          {formatted}
+        </span>
+      </div>
+      <div className="relative">
+        <PixelClouds />
+        <div className="relative z-10 space-y-4">
+          {sections.map((section, i) => (
+            <SectionBlock key={section.topic} section={section} date={date} index={i} />
+          ))}
+        </div>
       </div>
     </div>
   )
