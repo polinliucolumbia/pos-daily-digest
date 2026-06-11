@@ -23,12 +23,23 @@ function getIcon(topic: string) {
   return TOPIC_ICONS[key] ?? TOPIC_ICONS.default
 }
 
-function StoryItem({ story, date, topic }: { story: Story; date: string; topic: string }) {
+function StoryItem({
+  story,
+  date,
+  topic,
+  onMove,
+}: {
+  story: Story
+  date: string
+  topic: string
+  onMove: (headline: string, dir: 'up' | 'down') => void
+}) {
   const [reaction, setReaction] = useState<'up' | 'down' | null>(null)
 
   async function handleReaction(next: 'up' | 'down') {
     const newReaction = reaction === next ? null : next
     setReaction(newReaction)
+    onMove(story.headline, next)
     await fetch('/api/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -82,9 +93,28 @@ function StoryItem({ story, date, topic }: { story: Story; date: string; topic: 
 
 function SectionBlock({ section, date, index }: { section: Section; date: string; index: number }) {
   const [expanded, setExpanded] = useState(false)
-  const visible = section.stories.slice(0, VISIBLE_COUNT)
-  const hidden = section.stories.slice(VISIBLE_COUNT)
+  const [stories, setStories] = useState(section.stories)
+  const visible = stories.slice(0, VISIBLE_COUNT)
+  const hidden = stories.slice(VISIBLE_COUNT)
   const hasMore = hidden.length > 0
+
+  function moveStory(headline: string, dir: 'up' | 'down') {
+    const i = stories.findIndex(s => s.headline === headline)
+    const j = dir === 'up' ? i - 1 : i + 1
+    if (i < 0 || j < 0 || j >= stories.length) return
+    const next = [...stories]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    setStories(next)
+    fetch('/api/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        date,
+        topic: section.topic,
+        headlines: next.map(s => s.headline),
+      }),
+    })
+  }
 
   return (
     <div className="rounded-xl border border-stone-800/20 border-t-2 border-t-[#0d5c45] bg-white px-6 py-5">
@@ -129,11 +159,11 @@ function SectionBlock({ section, date, index }: { section: Section; date: string
       */}
 
       <ul className="space-y-1">
-        {visible.map((story, i) => (
-          <StoryItem key={i} story={story} date={date} topic={section.topic} />
+        {visible.map(story => (
+          <StoryItem key={story.headline} story={story} date={date} topic={section.topic} onMove={moveStory} />
         ))}
-        {expanded && hidden.map((story, i) => (
-          <StoryItem key={`h-${i}`} story={story} date={date} topic={section.topic} />
+        {expanded && hidden.map(story => (
+          <StoryItem key={story.headline} story={story} date={date} topic={section.topic} onMove={moveStory} />
         ))}
       </ul>
       {hasMore && (
