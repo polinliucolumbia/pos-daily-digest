@@ -12,19 +12,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
-  background-image: radial-gradient(circle, #c5c4bc 1px, transparent 1px);
-  background-size: 22px 22px;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: clip;
 }
 
 @keyframes cloudFloat {
