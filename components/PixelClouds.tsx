@@ -11,11 +11,14 @@ interface CloudConfig {
 }
 
 const clouds: CloudConfig[] = [
-  { top: '4%',     left: '-5%',    width: 340, animDuration: '9s',  animDelay: '0s'   },
-  { top: '18%',    right: '-7%',   width: 300, animDuration: '12s', animDelay: '2.5s' },
-  { top: '40%',    left: '-4%',    width: 320, animDuration: '8s',  animDelay: '1s'   },
-  { bottom: '8%',  left: '12%',    width: 290, animDuration: '11s', animDelay: '3.5s' },
-  { bottom: '-2%', right: '-3%',   width: 330, animDuration: '10s', animDelay: '5s'   },
+  { top: '-2%',     right: '0%',    width: 280, animDuration: '9s',    animDelay: '0s'   },
+  { top: '4%',     left: '-5%',    width: 530, animDuration: '9s',    animDelay: '0s'   },
+  { top: '12%',    right: '-7%',   width: 380, animDuration: '12s',   animDelay: '2.5s' },
+  { top: '40%',    left: '-4%',    width: 400, animDuration: '8s',    animDelay: '1s'   },
+  { top: '52%',    right: '-5%',   width: 390, animDuration: '10.5s', animDelay: '4s'   },
+  { top: '68%',  left: '5%',    width: 370, animDuration: '11s',   animDelay: '3.5s' },
+  { top: '78%', right: '-12%',    width: 560, animDuration: '9.5s',  animDelay: '6s'   },
+  { bottom: '-5%', right: '10%',   width: 420, animDuration: '10s',   animDelay: '5s'   },
 ]
 
 export default function PixelClouds() {
@@ -34,7 +37,7 @@ export default function PixelClouds() {
       {clouds.map((cloud, i) => {
         const style: React.CSSProperties = {
           position: 'absolute',
-          width: `min(${cloud.width}px, 45vw)`,
+          width: `min(${cloud.width}px, 55vw)`,
           animation: `cloudFloat ${cloud.animDuration} ease-in-out infinite`,
           animationDelay: cloud.animDelay,
         }
