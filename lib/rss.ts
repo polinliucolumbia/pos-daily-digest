@@ -32,8 +32,6 @@ const FEEDS: FeedConfig[] = [
   // Replace the URL below with your generated feed URL, then duplicate this line for each newsletter
   { url: 'https://kill-the-newsletter.com/feeds/vaet6ozz98dgak75e45p.xml', source: 'Morning Brew', topic: 'General' },
   { url: 'https://kill-the-newsletter.com/feeds/o1bo2bkocrp390dys77c.xml', source: 'Tech Brew', topic: 'AI & Tech' },
-  
-]
 ]
 
 function extractTag(item: string, tag: string): string {
