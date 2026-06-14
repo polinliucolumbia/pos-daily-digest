@@ -28,6 +28,12 @@ const FEEDS: FeedConfig[] = [
   { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147', source: 'CNBC Business', topic: 'Business & Ops' },
   { url: 'https://www.taipeitimes.com/xml/index.rss', source: 'Taipei Times', topic: 'Austria & Taiwan' },
   { url: 'https://rss.orf.at/news.xml', source: 'ORF', topic: 'Austria & Taiwan' },
+  // Newsletters via Kill the Newsletter (https://kill.the.newsletter.com)
+  // Replace the URL below with your generated feed URL, then duplicate this line for each newsletter
+  { url: 'https://kill-the-newsletter.com/feeds/vaet6ozz98dgak75e45p.xml', source: 'Morning Brew', topic: 'General' },
+  { url: 'https://kill-the-newsletter.com/feeds/o1bo2bkocrp390dys77c.xml', source: 'Tech Brew', topic: 'AI & Tech' },
+  
+]
 ]
 
 function extractTag(item: string, tag: string): string {

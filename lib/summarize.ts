@@ -34,11 +34,13 @@ export async function summarizeArticles(
     schema: DigestSchema,
     prompt: `Build a concise daily news digest readable in 5–10 minutes by categorizing and summarizing these articles.
 
-Use exactly these topic names:
+Use exactly these topic names (omit any section with no relevant content):
 - AI & Tech: AI, software, startups, tech companies, products
 - Business: economy, markets, companies, strategy, retail
 - Global News: international news, geopolitics, world events, foreign policy
 - Austria & Taiwan: any story that directly concerns Austria or Taiwan, regardless of subject
+- Sports: major championships, tournament finals, Olympics results, record-breaking performances — SKIP routine game scores, injury reports, trade rumors, and regular-season standings
+- Culture & Entertainment: wide-release films at or near opening weekend, major award show results (Oscars, Grammys, Emmys), or cultural phenomena everyone is discussing — SKIP casting announcements, industry deals, and production updates
 
 Rules:
 - Only include a section if it has relevant articles
@@ -47,7 +49,7 @@ Rules:
 - For Austria & Taiwan: prepend "🇦🇹 " to Austrian headlines, "🇹🇼 " to Taiwan headlines; do NOT place these stories in Global News
 - Headlines: clear, concise, rewritten statements (not clickbait)
 - Summaries: exactly one sentence, factual
-- Use the "Topic hint" as guidance but reclassify if a better topic fits — EXCEPTION: articles with topic hint 'Austria & Taiwan' must ALWAYS be placed in the Austria & Taiwan section and never moved to any other section
+- Use the "Topic hint" as guidance but reclassify if a better topic fits — articles with hint 'General' may be placed in any section; EXCEPTION: articles with topic hint 'Austria & Taiwan' must ALWAYS be placed in the Austria & Taiwan section and never moved to any other section
 - For ORF articles (source: "ORF"): only include if the story directly concerns Austrian domestic affairs (politics, society, economy within Austria); skip ORF articles about foreign events with no specific Austrian domestic angle
 - For articles in non-English languages (e.g. German from ORF): write the headline and summary in English
 - If multiple articles cover the same event, merge them into one story using the best-sourced version; never include the same event twice
