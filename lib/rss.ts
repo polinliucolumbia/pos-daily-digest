@@ -77,16 +77,22 @@ export async function fetchArticles(): Promise<{ articles: RawArticle[]; feedSta
         }
 
         const xml = await res.text()
-        const items = xml.split('<item').slice(1)
+        const isAtom = xml.includes('<feed')
+        const items = isAtom ? xml.split('<entry>').slice(1) : xml.split('<item').slice(1)
         let count = 0
 
         for (const item of items) {
-          const pubDate = extractTag(item, 'pubDate')
+          const pubDate = isAtom ? extractTag(item, 'published') : extractTag(item, 'pubDate')
           if (!isRecent(pubDate)) continue
 
-          const guid = extractTag(item, 'guid') || extractTag(item, 'link')
+          const guid = isAtom
+            ? extractTag(item, 'id')
+            : extractTag(item, 'guid') || extractTag(item, 'link')
           const title = extractTag(item, 'title')
-          const description = stripHtml(extractTag(item, 'description')).substring(0, 400)
+          const rawDesc = isAtom
+            ? extractTag(item, 'content') || extractTag(item, 'summary')
+            : extractTag(item, 'description')
+          const description = stripHtml(rawDesc).substring(0, isAtom ? 800 : 400)
 
           if (!title || !guid) continue
 
