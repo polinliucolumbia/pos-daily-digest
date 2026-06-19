@@ -92,7 +92,7 @@ export async function fetchArticles(): Promise<{ articles: RawArticle[]; feedSta
           const rawDesc = isAtom
             ? extractTag(item, 'content') || extractTag(item, 'summary')
             : extractTag(item, 'description')
-          const description = stripHtml(rawDesc).substring(0, isAtom ? 800 : 400)
+          const description = stripHtml(rawDesc).substring(0, isAtom ? 4000 : 400)
 
           if (!title || !guid) continue
 
